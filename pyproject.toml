@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "csv to xlsx"
+version = "0.1.0"
+description = ""
+authors = ["Jonas Lima <jonas.lima.dev@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+xlsxwriter = "^3.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
