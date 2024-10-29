@@ -1,7 +1,7 @@
 import csv
 
 
-def get_data_csv_file(path_csv_file="dados.csv"):
+def get_data_csv_file(path_csv_file="dados.csv",encode_file="utf-8"):
     """
     Lê um arquivo '.csv' e retornar os dados em uma lista de listas,
     sendo, as listas internas as linhas do arquivo.
@@ -22,9 +22,10 @@ def get_data_csv_file(path_csv_file="dados.csv"):
 
     """
     list_data_file = []
-    with open(path_csv_file, 'r',  encoding='latin-1') as file_csv:
+    with open(path_csv_file, 'r',  encoding=encode_file) as file_csv:
         csv_file_reader = csv.reader(file_csv)
         for row in csv_file_reader:
-            list_data_file.append(row)
+            if "Unidade: 1287 - CAMPUS UNIVERSITARIO DE ALTAMIRA (11.10)" not in row:
+                list_data_file.append(row)
     return list_data_file
 

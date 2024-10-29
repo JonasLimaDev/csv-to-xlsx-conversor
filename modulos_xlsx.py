@@ -1,5 +1,5 @@
-import xlsxwriter
 import string
+import xlsxwriter
 
 
 def decompose_number(number):
@@ -52,7 +52,6 @@ def number_to_letter(number):
 
 
 def get_dict_letters(limit):
-    
     """
     Criar um dicionário com o número correspondente da posição de cada letra do alfabeto
     """
