@@ -1,5 +1,5 @@
-from modulos_csv import get_data_csv_file
-from modulos_xlsx import create_xlsx_file
+from conversor.modulos_csv import get_data_csv_file 
+from conversor.modulos_xlsx import create_xlsx_file
 import gi
 import shutil
 
@@ -178,8 +178,8 @@ class MainWindow(Gtk.Window):
         create_xlsx_file(get_data_csv_file(self.files_list,"latin-1"))
         self.alert_finished_process()
 
-
-win = MainWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+if __name__ == "__main__":
+    win = MainWindow()
+    win.connect("destroy", Gtk.main_quit)
+    win.show_all()
+    Gtk.main()

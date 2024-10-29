@@ -45,11 +45,12 @@ def main(page: ft.Page):
         dados_arquivo = botao_converter.data
         for info_arquivo in dados_arquivo:
             nome_arquivo = info_arquivo.name.split(".")[0]
+            
             create_xlsx_file(
                 get_data_csv_file(info_arquivo.path,
                 encode_file='latin-1'
                 ),
-                nome_arquivo
+                f"{info_arquivo.path.replace(info_arquivo.name,"")}{nome_arquivo}"
                 )
     botao_converter = ft.ElevatedButton("Converter",on_click=converter_arquivo)
 
