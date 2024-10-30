@@ -4,7 +4,7 @@ image:
 - Ubuntu
 
 skip_branch_with_pr: true
-stack: python 3.10
+stack: python 3.12
 
 environment:
   GITHUB_TOKEN:
@@ -14,7 +14,7 @@ install:
 - pip install -r requirements.txt
 
 build_script:
-- flet pack main.py --name flet-app --icon icon.png --product-name flet-app --product-version "1.2.3" --copyright "Copyright (c) 2022 YourCompany Inc."
+- flet pack main.py --name csv-to-xlsx-conversor --icon icon.png --product-name csv-to-xlsx-conversor --product-version "1.2.3" --copyright "Copyright (c) 2022 YourCompany Inc."
 
 test: off
 
@@ -35,10 +35,10 @@ for:
     - image: Visual Studio 2019
 
   after_build:
-  - 7z a flet-app-windows.zip %CD%\dist\*.exe
+  - 7z a csv-to-xlsx-conversor-windows.zip %CD%\dist\*.exe
 
   artifacts:
-  - path: flet-app-windows.zip
+  - path: csv-to-xlsx-conversor-windows.zip
 
 #
 #   macOS package
@@ -49,10 +49,10 @@ for:
     - image: macOS
 
   after_build:
-  - tar -czvf flet-app-macos.tar.gz -C dist flet-app.app
+  - tar -czvf csv-to-xlsx-conversor-macos.tar.gz -C dist csv-to-xlsx-conversor.app
 
   artifacts:
-  - path: flet-app-macos.tar.gz
+  - path: csv-to-xlsx-conversor-macos.tar.gz
 
 #
 #   Linux package
@@ -63,8 +63,8 @@ for:
     - image: Ubuntu
 
   after_build:
-  - tar -czvf flet-app-linux.tar.gz -C dist flet-app
+  - tar -czvf csv-to-xlsx-conversor-linux.tar.gz -C dist csv-to-xlsx-conversor
 
   artifacts:
-  - path: flet-app-linux.tar.gz
+  - path: csv-to-xlsx-conversor-linux.tar.gz
 
