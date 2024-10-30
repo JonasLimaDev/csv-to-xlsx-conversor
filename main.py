@@ -1,5 +1,10 @@
 import flet as ft
-from conversor.modulos_csv import get_data_csv_file 
+from conversor.modulos_csv import (
+    get_data_csv_file,
+    remove_blank_rows,
+    remove_rows_by_terms,
+    remove_rows_excepty_first,
+) 
 from conversor.modulos_xlsx import create_xlsx_file
 
 def criar_container_texto(componente_texto):
@@ -32,53 +37,70 @@ def main(page: ft.Page):
         allow_multiple=True, allowed_extensions=["csv"])
     )
     
+    # instruções para diálogo de salvar arquivo
+    def save_file_result(e: ft.FilePickerResultEvent):
+        print(e.path)
+    save_file_dialog = ft.FilePicker(on_result=save_file_result)
+    page.add(save_file_dialog)
+
+
     def on_dialog_result(e: ft.FilePickerResultEvent):
-        print("Selected files:", e.files[0].name)
         botao_converter.data = list(e.files)
+        botao_converter.disabled=False
         page.update()
-        print("Selected file or directory:", e.path)
+        
     file_picker = ft.FilePicker(on_result=on_dialog_result)
 
+    dlg = ft.AlertDialog(
+        title=ft.Text("Converssão Finalizada"),
+    )
 
     def converter_arquivo(e):
-        print(botao_converter.data)
+        botao_converter.disabled=True
+        page.update()
         dados_arquivo = botao_converter.data
         for info_arquivo in dados_arquivo:
             nome_arquivo = info_arquivo.name.split(".")[0]
-            
-            create_xlsx_file(
-                get_data_csv_file(info_arquivo.path,
+            dados = get_data_csv_file(info_arquivo.path,
                 encode_file='latin-1'
-                ),
+                )
+            termos_remover = [
+                "Sistema Integrado de Patrimônio, Administração e Contratos",
+                "Unidade: 1287 - CAMPUS UNIVERSITARIO DE ALTAMIRA (11.10)",
+                "EMITIDO EM  03/10/2024 10:50",
+                "1110 - CAMPUS UNIVERSITARIO DE ALTAMIRA",
+            ]
+            
+            dados = remove_blank_rows(dados)
+            dados = remove_rows_by_terms(dados, termos_remover)
+            dados = remove_rows_excepty_first(dados, ["Tombamento"])
+            create_xlsx_file(
+                dados,
                 f"{info_arquivo.path.replace(info_arquivo.name,"")}{nome_arquivo}"
                 )
-    botao_converter = ft.ElevatedButton("Converter",on_click=converter_arquivo)
-
+        # save_file_dialog.save_file()
+        page.open(dlg)
         
+    botao_converter = ft.ElevatedButton("Converter",on_click=converter_arquivo,disabled=True)
+
+
     grupo_texto_coluna = [
         criar_container_texto(text_cabecalho),
         criar_container_texto(ft.Text()),
         criar_container_texto(text_label_converter),
-        
     ]
 
     
     page.add(file_picker)
-   
     page.add(
-        ft.Column(grupo_texto_coluna))
+        ft.Column(grupo_texto_coluna)
+    )
     page.add(botao_select_file)
-    page.add(ft.Container(
-        margin=10,
-        padding=5,
-        
-        ))     
+    page.add(
+        ft.Container(margin=10,
+        padding=5)
+    )
     page.add(botao_converter)
-    # print(arquivo_selecionado)
-    
-    # text_numero_sorteado = ft.Text(f"O número Sorteado é: {numero_sorteado}",size=14)
-    # label_selecionar_csv = ft.Text(f"O número Sorteado é: {numero_sorteado}",size=14)
-
 
 
 if __name__ == "__main__":

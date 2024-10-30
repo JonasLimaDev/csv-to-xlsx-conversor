@@ -1,0 +1,2 @@
+flet==0.24.1
+XlsxWriter==3.2.0

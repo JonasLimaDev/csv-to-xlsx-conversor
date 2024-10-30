@@ -73,5 +73,6 @@ def create_xlsx_file(data_to_save, file_name="temp_file_data"):
         for cell_data in row_data:
             worksheet.write(f'{dic_index_colunm[row_data.index(cell_data)]}{row_index}', cell_data)
         row_index += 1
+    worksheet.autofit()
     workbook.close()
 
