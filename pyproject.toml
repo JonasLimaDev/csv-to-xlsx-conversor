@@ -8,7 +8,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 xlsxwriter = "^3.2.0"
-pygobject = "^3.50.0"
 flet = "^0.24.1"
 
 
