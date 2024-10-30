@@ -62,8 +62,7 @@ def main(page: ft.Page):
         for info_arquivo in dados_arquivo:
             nome_arquivo = info_arquivo.name.split(".")[0]
             dados = get_data_csv_file(info_arquivo.path,
-                encode_file='latin-1'
-                )
+                encode_file='latin-1')
             termos_remover = [
                 "Sistema Integrado de Patrimônio, Administração e Contratos",
                 "Unidade: 1287 - CAMPUS UNIVERSITARIO DE ALTAMIRA (11.10)",
@@ -74,14 +73,11 @@ def main(page: ft.Page):
             dados = remove_blank_rows(dados)
             dados = remove_rows_by_terms(dados, termos_remover)
             dados = remove_rows_excepty_first(dados, ["Tombamento"])
-            create_xlsx_file(
-                dados,
-                f"{info_arquivo.path.replace(info_arquivo.name,"")}{nome_arquivo}"
-                )
+            create_xlsx_file(dados,f"{info_arquivo.path.replace(info_arquivo.name,"")}{nome_arquivo}")
         # save_file_dialog.save_file()
         page.open(dlg)
         
-    botao_converter = ft.ElevatedButton("Converter",on_click=converter_arquivo,disabled=True)
+    botao_converter = ft.ElevatedButton("Converter", on_click=converter_arquivo, disabled=True)
 
 
     grupo_texto_coluna = [
