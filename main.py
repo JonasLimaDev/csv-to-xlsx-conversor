@@ -73,7 +73,8 @@ def main(page: ft.Page):
             dados = remove_blank_rows(dados)
             dados = remove_rows_by_terms(dados, termos_remover)
             dados = remove_rows_excepty_first(dados, ["Tombamento"])
-            create_xlsx_file(dados,f"{info_arquivo.path.replace(info_arquivo.name,"")}{nome_arquivo}")
+            create_xlsx_file(dados,
+            f"{info_arquivo.path.replace(info_arquivo.name,'')}{nome_arquivo}")
         # save_file_dialog.save_file()
         page.open(dlg)
         
