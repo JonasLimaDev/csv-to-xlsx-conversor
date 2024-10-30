@@ -1,0 +1,9 @@
+[config-file]
+encoding_file = "latin-1"
+delimiter_file = ","
+
+
+[filter.exclude-row]
+row_contains = [ "Sistema Integrado de Patrimônio, Administração e Contratos", "Unidade: 1287 - CAMPUS UNIVERSITARIO DE ALTAMIRA (11.10)", "EMITIDO EM  03/10/2024 10:50", "1110 - CAMPUS UNIVERSITARIO DE ALTAMIRA",]
+row_excepty_firts = [ "Tombamento",]
+exclude_empety_rows = true

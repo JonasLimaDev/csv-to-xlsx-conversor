@@ -1,12 +1,10 @@
 import flet as ft
 from conversor.modulos_csv import (
     get_data_csv_file,
-    remove_blank_rows,
-    remove_rows_by_terms,
-    remove_rows_excepty_first,
+    filters_aplier
 ) 
 from conversor.modulos_xlsx import create_xlsx_file
-
+from conversor.config_file_data import load_config_file
 def criar_container_texto(componente_texto):
     """
     Retorna uma instancia do comopnete Container,
@@ -28,6 +26,7 @@ def main(page: ft.Page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     # page.update()
     arquivo_selecionado = []
+    configs = load_config_file()
 
     text_cabecalho = ft.Text("Conversor de Arquivo CSV para XLSX",text_align=ft.TextAlign.CENTER,size=18)
     text_label_converter = ft.Text("Secelcione um Arquivo para iniciar a Conversão",text_align=ft.TextAlign.CENTER,size=14)
@@ -61,18 +60,9 @@ def main(page: ft.Page):
         dados_arquivo = botao_converter.data
         for info_arquivo in dados_arquivo:
             nome_arquivo = info_arquivo.name.split(".")[0]
-            dados = get_data_csv_file(info_arquivo.path,
-                encode_file='latin-1')
-            termos_remover = [
-                "Sistema Integrado de Patrimônio, Administração e Contratos",
-                "Unidade: 1287 - CAMPUS UNIVERSITARIO DE ALTAMIRA (11.10)",
-                "EMITIDO EM  03/10/2024 10:50",
-                "1110 - CAMPUS UNIVERSITARIO DE ALTAMIRA",
-            ]
-            
-            dados = remove_blank_rows(dados)
-            dados = remove_rows_by_terms(dados, termos_remover)
-            dados = remove_rows_excepty_first(dados, ["Tombamento"])
+            dados = get_data_csv_file(info_arquivo.path)
+            dados = filters_aplier(dados)
+           
             create_xlsx_file(dados,
             f"{info_arquivo.path.replace(info_arquivo.name,'')}{nome_arquivo}")
         # save_file_dialog.save_file()
