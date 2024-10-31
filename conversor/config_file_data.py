@@ -21,6 +21,12 @@ def get_config_file_csv():
         return None
 def get_filters():
     try:
-        return load_config_file()['filter']
+        return load_config_file()['filters']
     except:
         return None
+
+# def get_filters_new():
+#     try:
+#         return load_config_file()['filters']
+#     except:
+#         return None
