@@ -75,4 +75,3 @@ def create_xlsx_file(data_to_save, file_name="temp_file_data"):
         row_index += 1
     worksheet.autofit()
     workbook.close()
-

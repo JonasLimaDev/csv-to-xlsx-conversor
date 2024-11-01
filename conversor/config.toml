@@ -1,0 +1,10 @@
+[configuration.file]
+encoding_file = "utf-8"
+delimiter_file = ","
+
+[filters.exclude]
+rows_contains_partial = []
+rows_contains_terms = []
+rows_excepty_first = []
+rows_empety = true
+columns_number = []

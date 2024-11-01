@@ -82,7 +82,14 @@ def exclude_rows_contains_partial(base_data, partials):
     return base_data
 
 
-
+def add_blank_itens_to_colunms(base_data):
+    limite = max(len(l) for l in base_data)
+    processed_data = []
+    for item in base_data:
+        blank_itens = ["" for count in range(limite - len(item))]
+        processed_data.append(
+            item + blank_itens)
+    return processed_data
 
 
 def exclude_columns_number(base_data, columns_numbers):
@@ -94,9 +101,8 @@ def exclude_columns_number(base_data, columns_numbers):
     """
     data_filtered = []
     columns_numbers = [number-1 for number in columns_numbers]
-    
+    print()
     for data_item in base_data:
-        # print(len(data_item))
         for index in sorted(columns_numbers, reverse=True):
             try:
                 del(data_item[index])
@@ -110,9 +116,9 @@ def filters_aplier(base_data):
     filters = get_filters()
     if not filters:
         return base_data
+    base_data = add_blank_itens_to_colunms(base_data)
     for prefix in filters.keys():
         for function, values_paran in filters[prefix].items():
             name_function = f'{prefix}_{function}'
             base_data = globals()[name_function](base_data, values_paran)
     return base_data
-

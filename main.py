@@ -5,7 +5,10 @@ from conversor.modulos_csv import (
 
 ) 
 from conversor.modulos_xlsx import create_xlsx_file
-from conversor.config_file_data import load_config_file
+from conversor.config_file_data import (
+    load_config_file,
+    create_inital_config
+    )
 # from conversor.execute_filters import execultar_filtros
 
 
@@ -14,13 +17,44 @@ def criar_container_texto(componente_texto):
     Retorna uma instancia do comopnete Container,
     com as configurações estabeleciadas para o grupo de texto
     """
-
     instancia_container = ft.Container(
         content=componente_texto,
         alignment=ft.alignment.center,
         padding=5
         )
     return instancia_container
+    
+
+def criar_container_input(componente_input):
+    instancia_container = ft.Container(
+        content=componente_input,
+        alignment=ft.alignment.center,
+        margin=10,
+        padding=10,
+        width=450,
+        height=200,
+        border_radius=10
+    )
+    return instancia_container
+
+
+def create_input_data_config(input_label, input_helper="", input_value=""):
+    input_data = ft.TextField(
+        label=input_label,
+        value=input_value,
+        multiline=True,
+        min_lines=2,
+        max_lines=3,
+        label_style = ft.TextStyle(size=22),
+        helper_text=input_helper,
+        helper_style = ft.TextStyle(size=14),
+    )
+    return input_data
+
+def pegar_dados_input_list(input_list):
+    for input_item in input_list:
+        print(input.value)
+
 
 def main(page: ft.Page):
     # configurações iniciais da janela
@@ -28,6 +62,8 @@ def main(page: ft.Page):
     page.window.width = 600       
     page.window.height = 640
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    # page.scroll = "adaptive"
+    
     # page.update()
     arquivo_selecionado = []
     configs = load_config_file()
@@ -51,12 +87,16 @@ def main(page: ft.Page):
         botao_converter.data = list(e.files)
         botao_converter.disabled=False
         page.update()
-        
     file_picker = ft.FilePicker(on_result=on_dialog_result)
+    page.add(file_picker)
 
     dlg = ft.AlertDialog(
         title=ft.Text("Converssão Finalizada"),
     )
+
+    def load_configuration(e):
+        print("acionado")
+        print(t.selected_index)
 
     def converter_arquivo(e):
         botao_converter.disabled=True
@@ -74,25 +114,65 @@ def main(page: ft.Page):
         
     botao_converter = ft.ElevatedButton("Converter", on_click=converter_arquivo, disabled=True)
 
-
     grupo_texto_coluna = [
         criar_container_texto(text_cabecalho),
         criar_container_texto(ft.Text()),
         criar_container_texto(text_label_converter),
     ]
 
-    
-    page.add(file_picker)
-    page.add(
-        ft.Column(grupo_texto_coluna)
+    layout_conversor = ft.Column(
+        [ft.Column(grupo_texto_coluna),
+        ft.Container(content=botao_select_file,
+            alignment=ft.alignment.center
+        ),
+        ft.Container(margin=10,padding=5),
+        ft.Container(
+            content=botao_converter,
+            alignment=ft.alignment.center
+        ),]
     )
-    page.add(botao_select_file)
-    page.add(
-        ft.Container(margin=10,
-        padding=5)
+
+    lista_inputs_config = []
+    for i in range(5):
+        lista_inputs_config.append(
+            criar_container_input(
+                create_input_data_config(f"input {i}",input_value=i)
+                )
+        )
+
+    t = ft.Tabs(
+        selected_index=0,
+        animation_duration=300,
+        on_change=load_configuration,
+        
+        tabs=[
+            ft.Tab(
+                text="Conversor",
+                icon=ft.icons.FILE_COPY,
+                content=ft.Container(
+                    layout_conversor
+                ),
+            ),
+            ft.Tab(
+                text="Configurações",
+                icon=ft.icons.SETTINGS,
+                
+                content=ft.Container(
+                ft.Column(
+                    lista_inputs_config+[ft.ElevatedButton("Salvar",  disabled=True)],
+                    scroll="auto",
+                    )
+                ),
+            ),
+        ],
+        expand=1,
     )
-    page.add(botao_converter)
+    page.add(t)
+
+
+    # page.add(criar_container_input(tb1))
 
 
 if __name__ == "__main__":
+    create_inital_config()
     ft.app(main)
