@@ -2,6 +2,8 @@ import string
 import xlsxwriter
 
 
+
+
 def decompose_number(number):
     """
     Retorna indicação de duas posições de letras para números maiores que 26,

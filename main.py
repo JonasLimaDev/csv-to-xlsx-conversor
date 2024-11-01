@@ -12,6 +12,38 @@ from conversor.config_file_data import (
 # from conversor.execute_filters import execultar_filtros
 
 
+
+class ConfigurationInput():
+    def __init__(self, label, key_to_write, value="",helper=""):
+        self.label = label
+        self.key_to_write = key_to_write
+        self.value = value
+        self.helper = helper
+    
+    def get_data_to_write(self):
+        return {self.key_to_write: value }
+    
+
+
+def define_inputs_configuracao(configs):
+    {
+        "encoding_file":[
+            "Condificação",
+            "Tipo de codificação Usada no Arquivo \
+                que deseja converter"
+                ],
+        "delimiter_file":[
+            "Delimitador",
+            "Delimitador das colunas do arquivo. padrão ','"
+        ],
+        "rows_contains_partial":[],
+        "rows_contains_terms":[],
+        "rows_excepty_first":[],
+        "rows_empety":[],
+        "columns_number":[],
+    }
+
+
 def criar_container_texto(componente_texto):
     """
     Retorna uma instancia do comopnete Container,
@@ -50,6 +82,8 @@ def create_input_data_config(input_label, input_helper="", input_value=""):
         helper_style = ft.TextStyle(size=14),
     )
     return input_data
+
+
 
 def pegar_dados_input_list(input_list):
     for input_item in input_list:

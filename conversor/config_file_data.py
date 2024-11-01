@@ -58,6 +58,16 @@ def get_filters():
     except:
         return None
 
-
-create_inital_config()
-add_configuration(load_config_file(),{"rows_excepty_first":["Tombamento",]})
+def get_individual_config():
+    try:
+        # return load_config_file()['filters']
+        individual_configuration = []
+        configurations = load_config_file()
+        for type_config in configurations:
+            for gruop in  configurations[type_config]:
+                individual_configuration.append(configurations[type_config][gruop])
+        return individual_configuration
+    except:
+        return None
+# create_inital_config()
+# add_configuration(load_config_file(),{"rows_excepty_first":["Tombamento",]})
