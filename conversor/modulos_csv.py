@@ -126,5 +126,7 @@ def filters_aplier(base_data):
     for prefix in filters.keys():
         for function, values_paran in filters[prefix].items():
             name_function = f'{prefix}_{function}'
-            base_data = globals()[name_function](base_data, values_paran)
+            if values_paran != ['']:
+                print(values_paran)
+                base_data = globals()[name_function](base_data, values_paran)
     return base_data

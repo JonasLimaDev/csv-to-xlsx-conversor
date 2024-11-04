@@ -1,10 +1,10 @@
 [configuration.file]
-encoding_file = "utf-8"
+encoding_file = "latin-1"
 delimiter_file = ","
 
 [filters.exclude]
-rows_contains_partial = []
-rows_contains_terms = []
-rows_excepty_first = []
+rows_contains_partial = [ "Total do Valor dos Bens", " Tombamento Antigo",]
+rows_contains_terms = [ "Sistema Integrado de Patrimônio, Administração e Contratos", " Unidade: 1287 - CAMPUS UNIVERSITARIO DE ALTAMIRA (11.10)", " EMITIDO EM  03/10/2024 10:50", " 1110 - CAMPUS UNIVERSITARIO DE ALTAMIRA",]
+rows_excepty_first = [ "Tombamento",]
 rows_empety = true
-columns_number = []
+columns_number = [ "3", " 9", " 10", " 11", " 12", " 13", " 15", " 16", " 17", " 18",]
