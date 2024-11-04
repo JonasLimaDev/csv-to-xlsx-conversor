@@ -30,12 +30,19 @@ def get_data_csv_file(path_csv_file="dados.csv"):
     config_file = get_config_file_csv()
     delimiter_file = config_file['delimiter_file'] if config_file else ","
     encode_file = config_file['encoding_file'] if config_file else "latin-1"
-
+    
     with open(path_csv_file, 'r',  encoding=encode_file) as file_csv:
         csv_file_reader = csv.reader(file_csv,delimiter=delimiter_file)
-        for row in csv_file_reader:
-            list_data_file.append(row)
+        try:
+            for row in csv_file_reader:
+                list_data_file.append(row)
+        except Exception as e:
+            print(e)
+        # print(NameError)       
+            return e
     return list_data_file
+    
+    
 
 
 def exclude_rows_contains_terms(dados, terms: list):
@@ -100,8 +107,7 @@ def exclude_columns_number(base_data, columns_numbers):
     [[2,3,4,6]]
     """
     data_filtered = []
-    columns_numbers = [number-1 for number in columns_numbers]
-    print()
+    columns_numbers = [int(number)-1 for number in columns_numbers]
     for data_item in base_data:
         for index in sorted(columns_numbers, reverse=True):
             try:
