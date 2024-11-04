@@ -12,6 +12,7 @@ from conversor.config_file_data import (
     get_individual_config,
     load_config_file,
     wirite_config_file,
+    FileDataConfig
     )
 
 
@@ -149,20 +150,18 @@ def criar_input_configuracao(input_label, input_helper="", input_value=""):
 
 
 
-def salvar_dados_config(input_list, config_class_list):
-    configuracoes = load_config_file()
+# def salvar_dados_config(input_list, config_class_list):
+#     configuracoes = load_config_file()
     
-    for input_item in input_list:
-        for config_class in config_class_list:
-            print(config_class.value)
-            if input_item.label == config_class.label:
-                 config_class.value = input_item.value
-            # print(config_class.value)
-            configuracoes = add_configuration(
-                configuracoes,
-                config_class.get_dict_to_save()
-            )
-    wirite_config_file(configuracoes)
+#     for input_item in input_list:
+#         for config_class in config_class_list:
+#             if input_item.label == config_class.label:
+#                  config_class.value = input_item.value
+#             configuracoes = add_configuration(
+#                 configuracoes,
+#                 config_class.get_dict_to_save()
+#             )
+#     wirite_config_file(configuracoes)
 
 def main(page: ft.Page):
     # configurações iniciais da janela
@@ -170,10 +169,8 @@ def main(page: ft.Page):
     page.window.width = 620       
     page.window.height = 680
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    # page.scroll = "adaptive"
-    
-    # page.update()
     arquivo_selecionado = []
+    configuracoes = FileDataConfig()
 
     text_cabecalho = ft.Text("Conversor de Arquivo CSV para XLSX",text_align=ft.TextAlign.CENTER,size=18)
     text_label_converter = ft.Text("Secelcione um Arquivo para iniciar a Conversão",text_align=ft.TextAlign.CENTER,size=14)
@@ -182,6 +179,16 @@ def main(page: ft.Page):
         on_click=lambda _: file_picker.pick_files(
         allow_multiple=True, allowed_extensions=["csv"])
     )
+
+    def salvar_dados_config(input_list, config_class_list):    
+        for input_item in input_list:
+            for config_class in config_class_list:
+                if input_item.label == config_class.label:
+                    config_class.value = input_item.value
+                configuracoes.add_configuration(
+                    config_class.get_dict_to_save())
+        configuracoes.save_file()
+        configuracoes.update_config()
     
     # instruções para diálogo de salvar arquivo
     def save_file_result(e: ft.FilePickerResultEvent):
@@ -217,7 +224,7 @@ def main(page: ft.Page):
             nome_arquivo = info_arquivo.name.split(".")[0]
             dados = get_data_csv_file(info_arquivo.path)
             if type(dados) != list:
-                print("erro meu brother")
+                # print("erro meu brother")
                 if str(dados) == "'utf-8' codec can't decode byte 0xe1 in position 27: invalid continuation byte":
                     dlg_erro.content = ft.Text(f"Erro de Codificação do arquivo.\n{dados}\n experimente trocar a codificação nas configurações")
                     page.open(dlg_erro)

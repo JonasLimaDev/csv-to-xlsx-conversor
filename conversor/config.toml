@@ -1,6 +1,6 @@
 [configuration.file]
 encoding_file = "latin-1"
-delimiter_file = ","
+delimiter_file = ";"
 
 [filters.exclude]
 rows_contains_partial = [ "Total do Valor dos Bens", " Tombamento Antigo",]

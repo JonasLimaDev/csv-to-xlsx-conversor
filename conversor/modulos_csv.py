@@ -36,9 +36,7 @@ def get_data_csv_file(path_csv_file="dados.csv"):
         try:
             for row in csv_file_reader:
                 list_data_file.append(row)
-        except Exception as e:
-            print(e)
-        # print(NameError)       
+        except Exception as e:     
             return e
     return list_data_file
     
@@ -127,6 +125,5 @@ def filters_aplier(base_data):
         for function, values_paran in filters[prefix].items():
             name_function = f'{prefix}_{function}'
             if values_paran != ['']:
-                print(values_paran)
                 base_data = globals()[name_function](base_data, values_paran)
     return base_data
