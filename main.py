@@ -7,11 +7,7 @@ from conversor.modulos_csv import (
 from conversor.modulos_xlsx import create_xlsx_file
 
 from conversor.config_file_data import (
-    add_configuration,
     create_inital_config,
-    get_individual_config,
-    load_config_file,
-    wirite_config_file,
     FileDataConfig
     )
 
@@ -150,19 +146,6 @@ def criar_input_configuracao(input_label, input_helper="", input_value=""):
 
 
 
-# def salvar_dados_config(input_list, config_class_list):
-#     configuracoes = load_config_file()
-    
-#     for input_item in input_list:
-#         for config_class in config_class_list:
-#             if input_item.label == config_class.label:
-#                  config_class.value = input_item.value
-#             configuracoes = add_configuration(
-#                 configuracoes,
-#                 config_class.get_dict_to_save()
-#             )
-#     wirite_config_file(configuracoes)
-
 def main(page: ft.Page):
     # configurações iniciais da janela
     page.title = "CONVERSOR: csv => xlsx"
@@ -213,7 +196,7 @@ def main(page: ft.Page):
     
     )
     def load_configuration(e):
-        load_config_file()
+        configuracoes.update_config()
 
 
     def converter_arquivo(e):
@@ -222,9 +205,8 @@ def main(page: ft.Page):
         dados_arquivo = botao_converter.data
         for info_arquivo in dados_arquivo:
             nome_arquivo = info_arquivo.name.split(".")[0]
-            dados = get_data_csv_file(info_arquivo.path)
+            dados = get_data_csv_file(info_arquivo.path, configuracoes.confi_to_read())
             if type(dados) != list:
-                # print("erro meu brother")
                 if str(dados) == "'utf-8' codec can't decode byte 0xe1 in position 27: invalid continuation byte":
                     dlg_erro.content = ft.Text(f"Erro de Codificação do arquivo.\n{dados}\n experimente trocar a codificação nas configurações")
                     page.open(dlg_erro)
@@ -232,7 +214,7 @@ def main(page: ft.Page):
                     dlg_erro.content = ft.Text(f"Erro não mapeado\n{e}")
                     page.open(dlg_erro)
                 return
-            dados = filters_aplier(dados)
+            dados = filters_aplier(dados,configuracoes.get_filters())
 
             create_xlsx_file(dados,
             f"{info_arquivo.path.replace(info_arquivo.name,'')}{nome_arquivo}")
@@ -260,7 +242,9 @@ def main(page: ft.Page):
         ),]
     )
 
-    instacias_configs = definir_inputs_configuracao(get_individual_config())
+    instacias_configs = definir_inputs_configuracao(
+        configuracoes.get_individual_config()
+        )
     lista_inputs_config = []
     for instancia in instacias_configs:
         lista_inputs_config.append(

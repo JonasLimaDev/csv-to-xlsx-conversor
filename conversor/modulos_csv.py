@@ -1,12 +1,6 @@
 import csv
-from .config_file_data import (
-    load_config_file,
-    get_filters,
-    get_config_file_csv,
-    )
 
-
-def get_data_csv_file(path_csv_file="dados.csv"):
+def get_data_csv_file(path_csv_file="dados.csv", config_file=None):
     """
     Lê um arquivo '.csv' e retornar os dados em uma lista de listas,
     sendo, as listas internas as linhas do arquivo.
@@ -27,12 +21,9 @@ def get_data_csv_file(path_csv_file="dados.csv"):
 
     """
     list_data_file = []
-    config_file = get_config_file_csv()
-    delimiter_file = config_file['delimiter_file'] if config_file else ","
-    encode_file = config_file['encoding_file'] if config_file else "latin-1"
-    
-    with open(path_csv_file, 'r',  encoding=encode_file) as file_csv:
-        csv_file_reader = csv.reader(file_csv,delimiter=delimiter_file)
+    with open(path_csv_file, 'r', encoding=config_file['encoding_file']) as file_csv:
+        csv_file_reader = csv.reader(file_csv,
+            delimiter=config_file['delimiter_file'])
         try:
             for row in csv_file_reader:
                 list_data_file.append(row)
@@ -40,11 +31,17 @@ def get_data_csv_file(path_csv_file="dados.csv"):
             return e
     return list_data_file
     
-    
+
+def remove_blank_item(list_terms):
+    for term in list_terms:
+        if term.strip() == "" or term == "":
+            list_terms.pop(list_terms.index(term))
+    return list_terms
 
 
 def exclude_rows_contains_terms(dados, terms: list):
     data_filtered = []
+    terms = remove_blank_item(terms)
     for dado in dados:
         if not any(elem in dado for elem in terms):
             data_filtered.append(dado)
@@ -54,6 +51,7 @@ def exclude_rows_contains_terms(dados, terms: list):
 def exclude_rows_excepty_first(base_data, terms: list):
     data_filtered = []
     exclude_row_contains = []
+    terms = remove_blank_item(terms)
     for data_item in base_data:
         if not any(elem in data_item for elem in exclude_row_contains):
             for term in terms:
@@ -79,11 +77,13 @@ def exclude_rows_empety(base_data, option):
 
 def exclude_rows_contains_partial(base_data, partials):
     ignore = False
+    partials = remove_blank_item(partials)
     for data_item in base_data:
-        for elem in data_item:
-            for part in partials:
-                if part in elem:
-                    del(base_data[base_data.index(data_item)])
+        for part in partials:
+            for elem in data_item:
+                if part.strip() != ""  and part in elem :
+                    base_data.remove(data_item)
+                    break
     return base_data
 
 
@@ -105,6 +105,7 @@ def exclude_columns_number(base_data, columns_numbers):
     [[2,3,4,6]]
     """
     data_filtered = []
+    columns_numbers = remove_blank_item(columns_numbers)
     columns_numbers = [int(number)-1 for number in columns_numbers]
     for data_item in base_data:
         for index in sorted(columns_numbers, reverse=True):
@@ -116,8 +117,10 @@ def exclude_columns_number(base_data, columns_numbers):
     return data_filtered
 
 
-def filters_aplier(base_data):
-    filters = get_filters()
+def filters_aplier(base_data, filters):
+    """
+    Executa as funções conforme os filtros passados.
+    """
     if not filters:
         return base_data
     base_data = add_blank_itens_to_colunms(base_data)
