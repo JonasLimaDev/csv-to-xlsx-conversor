@@ -1,4 +1,6 @@
 import csv
+import inspect
+
 
 def get_data_csv_file(path_csv_file="dados.csv", config_file=None):
     """
@@ -64,7 +66,7 @@ def exclude_rows_excepty_first(base_data, terms: list):
     return data_filtered
 
 
-def exclude_rows_empety(base_data, option):
+def exclude_rows_empety(base_data, option: bool):
     data_filtered = []
     if not option:
         return base_data
@@ -75,8 +77,7 @@ def exclude_rows_empety(base_data, option):
     return data_filtered
 
 
-def exclude_rows_contains_partial(base_data, partials):
-    ignore = False
+def exclude_rows_contains_partial(base_data, partials: list):
     partials = remove_blank_item(partials)
     for data_item in base_data:
         for part in partials:
@@ -117,7 +118,13 @@ def exclude_columns_number(base_data, columns_numbers):
     return data_filtered
 
 
-def filters_aplier(base_data, filters):
+def get_expected_param(name_function):
+    inspec = inspect.getfullargspec(globals()[name_function])
+    return inspec
+
+
+
+def filters_aplier(base_data, filters: list):
     """
     Executa as funções conforme os filtros passados.
     """

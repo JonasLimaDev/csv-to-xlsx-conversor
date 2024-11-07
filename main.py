@@ -6,104 +6,56 @@ from conversor.modulos_csv import (
 
 from conversor.modulos_xlsx import create_xlsx_file
 
-from conversor.config_file_data import (
+
+from conversor.classes_configuration_file import (
+    FileDataConfig,)
+
+from conversor.functions_configuration_file import (
     create_inital_config,
-    FileDataConfig
+    create_inputs_config
     )
 
 
 BASE_INPUTS = {
     "encoding_file":[
-        "Condificação",
+        "Condificação", # label do imput
         "Tipo de codificação Usada no Arquivo \
-        que deseja converter"
+        que deseja converter", # helper do imput
+        "str", # tipo de dado da configuração
         ],
     "delimiter_file":[
         "Delimitador",
-        "Delimitador das colunas do arquivo. padrão ','"
+        "Delimitador das colunas do arquivo. padrão ','",
+        "str",
     ],
     "rows_contains_partial":[
         "Excluir Linhas Por Conteúdo Parcial",
-        "Remove linhas caso em qualquer das celulas que tenham os termos definidos"
+        "Remove linhas caso em qualquer das celulas que tenham os termos definidos",
+        ['list',],
     ],
     "rows_contains_terms":[
         "Excluir Linhas Por Conteúdo",
-        "Remove linhas caso em qualquer das celulas que tenha exatamente o(s) termo(s) definido(s)"
+        "Remove linhas caso em qualquer das celulas que tenha exatamente o(s) termo(s) definido(s)",
+        ['list',],
     ],
     "rows_excepty_first":[
         "Excluir Linhas, Exceto Primeiro Caso",
         "Remove linhas caso em qualquer das celulas tenha exatamente o(s)\
         termo(s) definido(s),\n porém mantém o primeiro caso localizado.\
-        ideal caso possua cabeçalhos que se repetem"
+        ideal caso possua cabeçalhos que se repetem",
+        ['list',],
     ],
     "rows_empety":[
         "Excluir Linhas Vazias",
-        "Remove linhas caso todas as celulas estejam vazias"
+        "Remove linhas caso todas as celulas estejam vazias",
+        True,
     ],
     "columns_number":[
         "Excluir Colunas",
-        "Remove as Colunas, comforme número da posição definido"
+        "Remove as Colunas, comforme número da posição definido",
+        ['list',],
     ],
 }
-
-
-class ConfigurationInput():
-    def __init__(self, label, key_to_write, type_config, value="", helper=""):
-        self.label = label
-        self.key_to_write = key_to_write
-        self.value = value
-        self.helper = helper
-        self.type_config = type_config
-        self.value_display = self.value_to_display_view()
-
-    
-    def get_data_to_write(self):
-        return {self.key_to_write: value }
-    
-    def value_to_display_view(self):
-        if self.type_config != list:
-            text_display = str(self.value)
-            remove = ['[',']','"',]
-            for item in remove:
-                text_display =text_display.replace(item,"")
-        else:
-            # print(self.value)
-            text_display = ""
-            for item in self.value:
-                removes = ['[',']','"',]
-                for remove in removes:
-                    item = str(item).replace(remove,"")
-                text_display += f"{item}; "
-            text_display = text_display[:-2]
-        # print(text_display)
-
-        return text_display
-    
-    def get_dict_to_save(self):
-        # print(self.type_config)
-        if self.type_config == list:
-            return {self.key_to_write: str(self.value).split(";")}
-        elif self.type_config == bool:
-            return {self.key_to_write: bool(self.value)}
-        else:
-            return {self.key_to_write: self.value}
-
-
-def definir_inputs_configuracao(configs):
-    inputs_data = []
-    for config in configs:
-        for key_config in config:
-            inputs_data.append(
-                ConfigurationInput(
-                    label=BASE_INPUTS[key_config][0],
-                    key_to_write=key_config,
-                    value=config[key_config],
-                    helper=BASE_INPUTS[key_config][1].replace("       ",""),
-                    type_config = type(config[key_config])
-                )
-            )
-    return inputs_data
-
 
 
 def criar_container_texto(componente_texto):
@@ -176,10 +128,10 @@ def main(page: ft.Page):
     # instruções para diálogo de salvar arquivo
     def save_file_result(e: ft.FilePickerResultEvent):
         print(e.path)
+    
     save_file_dialog = ft.FilePicker(on_result=save_file_result)
     page.add(save_file_dialog)
-
-
+    
     def on_dialog_result(e: ft.FilePickerResultEvent):
         botao_converter.data = list(e.files)
         botao_converter.disabled=False
@@ -242,8 +194,8 @@ def main(page: ft.Page):
         ),]
     )
 
-    instacias_configs = definir_inputs_configuracao(
-        configuracoes.get_individual_config()
+    instacias_configs = create_inputs_config(
+        configuracoes.get_individual_config(),BASE_INPUTS
         )
     lista_inputs_config = []
     for instancia in instacias_configs:
@@ -253,6 +205,9 @@ def main(page: ft.Page):
     def salvar_arquivo_config(e):
         salvar_dados_config(lista_inputs_config, instacias_configs)
         page.update() 
+
+    def open_repo(e):
+        page.launch_url('https://github.com/JonasLimaDev/csv-to-xlsx-conversor')
 
     t = ft.Tabs(
         selected_index=0,

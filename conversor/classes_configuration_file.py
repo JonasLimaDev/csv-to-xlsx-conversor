@@ -1,31 +1,4 @@
 import toml
-import os
-
-
-def define_configs_structure():
-    config_initial = {
-        'configuration':{
-            'file':{
-            'encoding_file': 'utf-8', 'delimiter_file': ','
-            },
-        },
-        'filters': {
-            'exclude': {
-                'rows_contains_partial':[],
-                'rows_contains_terms': [],
-                'rows_excepty_first': [],
-                'rows_empety': True,
-                'columns_number': [],
-            }
-        }
-    }
-    return config_initial
-
-
-def create_inital_config(path_file='./'):
-    if not os.path.exists("config.toml"):
-        with open(f'{path_file}config.toml', 'w') as f:
-            toml.dump(define_configs_structure(), f)
 
 
 class FileDataConfig():
@@ -110,4 +83,47 @@ class FileDataConfig():
             for gruop in self.all[config_type]:
                 individual_configuration.append(self.all[config_type][gruop])
         return individual_configuration
-        
+
+
+
+class ConfigurationInput():
+    def __init__(self, label, key_to_write, type_config, value="", helper=""):
+        self.label = label
+        self.key_to_write = key_to_write
+        self.value = value
+        self.helper = helper
+        self.type_config = type_config
+        self.value_display = self.value_to_display_view()
+    
+    def value_to_display_view(self):
+        """
+        Prepara as informações das configurações para visualização na interface.
+        """
+        if self.type_config != list:
+            text_display = str(self.value)
+            remove = ['[',']','"',]
+            for item in remove:
+                text_display =text_display.replace(item,"")
+        else:
+            text_display = ""
+            for item in self.value:
+                removes = ['[',']','"',]
+                for remove in removes:
+                    item = str(item).replace(remove,"")
+                text_display += f"{item}; "
+            text_display = text_display[:-2]
+        return text_display
+    
+    def get_dict_to_save(self):
+        """
+        Prepara os dados para serem salvos no arquivo de configuração
+        """
+        if self.type_config == list:
+            return {self.key_to_write: str(self.value).split(";")}
+        elif self.type_config == bool:
+            if str(self.value).lower() == "true" or str(self.value).lower() == "sim": 
+                return {self.key_to_write: True}
+            else:
+                return {self.key_to_write: False}
+        else:
+            return {self.key_to_write: self.value}
