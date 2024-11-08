@@ -58,7 +58,7 @@ class DataClassCSV():
         terms = self.remove_blank_item(terms)
         counter = 0
         for item in self.data:
-            if any(elem in item for elem in terms):
+            if any(elem.strip() in item for elem in terms):
                 self.data.remove(item)
                 counter += 1
         return counter
@@ -72,7 +72,7 @@ class DataClassCSV():
         for data_item in self.data:
             for part in partials:
                 for elem in data_item:
-                    if part in elem :
+                    if part.strip() in elem :
                         self.data.remove(data_item)
                         removed = True
                         break
