@@ -1,8 +1,6 @@
 import flet as ft
-from conversor.modulos_csv import (
-    get_data_csv_file,
-    filters_aplier,
-) 
+
+from conversor.class_data_csv import DataClassCSV
 
 from conversor.modulos_xlsx import create_xlsx_file
 
@@ -157,18 +155,20 @@ def main(page: ft.Page):
         dados_arquivo = botao_converter.data
         for info_arquivo in dados_arquivo:
             nome_arquivo = info_arquivo.name.split(".")[0]
-            dados = get_data_csv_file(info_arquivo.path, configuracoes.confi_to_read())
-            if type(dados) != list:
-                if str(dados) == "'utf-8' codec can't decode byte 0xe1 in position 27: invalid continuation byte":
-                    dlg_erro.content = ft.Text(f"Erro de Codificação do arquivo.\n{dados}\n experimente trocar a codificação nas configurações")
+            filters = configuracoes.get_filters()
+            dados_instance = DataClassCSV(filters=filters,path_file=info_arquivo.path)
+            dados_instance.load_csv_file(configuracoes.confi_to_read())
+            if dados_instance.erros:
+                if str(dados_instance.erros) == "'utf-8' codec can't decode byte 0xe1 in position 27: invalid continuation byte":
+                    dlg_erro.content = ft.Text(f"Erro de Codificação do arquivo.\n{dados_instance.erros}\n experimente trocar a codificação nas configurações")
                     page.open(dlg_erro)
                 else:
-                    dlg_erro.content = ft.Text(f"Erro não mapeado\n{e}")
+                    dlg_erro.content = ft.Text(f"Erro não mapeado\n{dados_instance.erros}")
                     page.open(dlg_erro)
                 return
-            dados = filters_aplier(dados,configuracoes.get_filters())
+            dados_instance.filters_aplier()
 
-            create_xlsx_file(dados,
+            create_xlsx_file(dados_instance.data,
             f"{info_arquivo.path.replace(info_arquivo.name,'')}{nome_arquivo}")
         # save_file_dialog.save_file()
         page.open(dlg)
