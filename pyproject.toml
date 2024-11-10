@@ -6,12 +6,15 @@ authors = ["Jonas Lima <jonas.lima.dev@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.14"
 xlsxwriter = "^3.2.0"
 flet = "^0.24.1"
 toml = "^0.10.2"
-pandas = "^2.2.3"
 
+
+[tool.poetry.group.dev.dependencies]
+pyinstaller = "^6.11.0"
+pillow = "^11.0.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -3,8 +3,9 @@
 *.csv
 *.xlsx
 config.toml
-
-
+dist/
+build/
+generated-*
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/

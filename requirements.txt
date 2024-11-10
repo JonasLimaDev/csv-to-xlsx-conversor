@@ -1,5 +1,0 @@
-flet
-toml
-pillow
-pyinstaller
-xlsxwriter
