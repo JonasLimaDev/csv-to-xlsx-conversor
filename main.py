@@ -1,12 +1,22 @@
 import flet as ft
 
-from conversor.class_data_csv import DataClassCSV
-
-from conversor.modulos_xlsx import create_xlsx_file
-
+from app.functions_structure import (
+    add_text_to_container,
+    add_input_to_container,
+    create_input_configuration,
+    create_header,
+    create_span_with_url,
+)
 
 from conversor.classes_configuration_file import (
     FileDataConfig,)
+
+
+from conversor.class_data_csv import DataClassCSV
+
+
+from conversor.class_data_xlsx import DataClassXlsx
+
 
 from conversor.functions_configuration_file import (
     create_inital_config,
@@ -15,8 +25,15 @@ from conversor.functions_configuration_file import (
 
 
 BASE_INPUTS = {
+    "save_new_file":[
+        "Salvar Novo Arquivo", # label do imput
+        "Decidir onde Salvar o Arquivo Processado. \
+        Por padrão é salva com o nome do arquivo de origem, assim,\
+        novas conversões sempre irão sobreescrever o arquivo de resultado", # helper do imput
+        False, # tipo de dado da configuração
+        ],
     "encoding_file":[
-        "Condificação", # label do imput
+        "Codificação", # label do imput
         "Tipo de codificação Usada no Arquivo \
         que deseja converter", # helper do imput
         "str", # tipo de dado da configuração
@@ -53,47 +70,7 @@ BASE_INPUTS = {
         "Remove as Colunas, comforme número da posição definido",
         ['list',],
     ],
-}
-
-
-def criar_container_texto(componente_texto):
-    """
-    Retorna uma instancia do comopnete Container,
-    com as configurações estabeleciadas para o grupo de texto
-    """
-    instancia_container = ft.Container(
-        content=componente_texto,
-        alignment=ft.alignment.center,
-        padding=5
-        )
-    return instancia_container
-    
-
-def criar_container_input(componente_input):
-    instancia_container = ft.Container(
-        content=componente_input,
-        alignment=ft.alignment.center,
-        margin=10,
-        padding=10,
-   
-        border_radius=10
-    )
-    return instancia_container
-
-
-def criar_input_configuracao(input_label, input_helper="", input_value=""):
-    input_data = ft.TextField(
-        label=input_label,
-        value=input_value,
-        multiline=True,
-        min_lines=1,
-        max_lines=4,
-        label_style = ft.TextStyle(size=20),
-        helper_text=input_helper,
-        helper_style = ft.TextStyle(size=12,overflow=ft.TextOverflow.VISIBLE),
-    )
-    return input_data
-
+}    
 
 
 def main(page: ft.Page):
@@ -102,84 +79,118 @@ def main(page: ft.Page):
     page.window.width = 620       
     page.window.height = 680
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    arquivo_selecionado = []
     configuracoes = FileDataConfig()
+    arquivo_resultado = None
 
-    text_cabecalho = ft.Text("Conversor de Arquivo CSV para XLSX",text_align=ft.TextAlign.CENTER,size=18)
-    text_label_converter = ft.Text("Secelcione um Arquivo para iniciar a Conversão",text_align=ft.TextAlign.CENTER,size=14)
-    # botão para carregar o arquivo que será convertido
-    botao_select_file = ft.ElevatedButton("Selecionar Arquivo...",
-        on_click=lambda _: file_picker.pick_files(
-        allow_multiple=True, allowed_extensions=["csv"])
-    )
-
-    def salvar_dados_config(input_list, config_class_list):    
-        for input_item in input_list:
-            for config_class in config_class_list:
-                if input_item.label == config_class.label:
-                    config_class.value = input_item.value
-                configuracoes.add_configuration(
-                    config_class.get_dict_to_save())
-        configuracoes.save_file()
-        configuracoes.update_config()
-    
-    # instruções para diálogo de salvar arquivo
-    def save_file_result(e: ft.FilePickerResultEvent):
-        print(e.path)
-    
-    save_file_dialog = ft.FilePicker(on_result=save_file_result)
-    page.add(save_file_dialog)
-    
-    def on_dialog_result(e: ft.FilePickerResultEvent):
-        botao_converter.data = list(e.files)
-        botao_converter.disabled=False
-        page.update()
-    file_picker = ft.FilePicker(on_result=on_dialog_result)
-    page.add(file_picker)
-
-    dlg = ft.AlertDialog(
-        title=ft.Text("Processamento Finalizado"),
-    )
-
-    dlg_erro = ft.AlertDialog(
-        title=ft.Text("Erro Processar arquivo"),
-    
-    )
+    #adições
     def load_configuration(e):
         configuracoes.update_config()
 
+    def generic_alert(title, mensagem,cor=1):
+        cores = {
+            1: ft.colors.GREEN_500,
+            2: ft.colors.LIGHT_BLUE_ACCENT_200,
+            3: ft.colors.RED_400,
+        }
+        page.open(ft.AlertDialog(
+            title=ft.Text(f"{title}"),
+            content=ft.Text(f"{mensagem}"),
+            bgcolor = cores[cor]
+        ))
+     
 
     def converter_arquivo(e):
         botao_converter.disabled=True
         page.update()
-        dados_arquivo = botao_converter.data
+        
+        dados_arquivo = botao_converter.data['entrada']
         for info_arquivo in dados_arquivo:
             nome_arquivo = info_arquivo.name.split(".")[0]
             filters = configuracoes.get_filters()
             dados_instance = DataClassCSV(filters=filters,path_file=info_arquivo.path)
             dados_instance.load_csv_file(configuracoes.confi_to_read())
             if dados_instance.erros:
-                if str(dados_instance.erros) == "'utf-8' codec can't decode byte 0xe1 in position 27: invalid continuation byte":
-                    dlg_erro.content = ft.Text(f"Erro de Codificação do arquivo.\n{dados_instance.erros}\n experimente trocar a codificação nas configurações")
-                    page.open(dlg_erro)
+                if str(dados_instance.erros) == "'utf-8' codec can't decode\
+                    byte 0xe1 in position 27: invalid continuation byte":
+                    generic_alert(
+                        "Erro Ao Processar Arquivo",
+                        f"Erro de Codificação do arquivo.\
+                        \n{dados_instance.erros}\n \
+                        experimente trocar a codificação nas configurações",
+                        3)
                 else:
-                    dlg_erro.content = ft.Text(f"Erro não mapeado\n{dados_instance.erros}")
-                    page.open(dlg_erro)
+
+                    generic_alert(
+                        "Erro Ao Processar Arquivo",
+                        f"Erro não mapeado\n{dados_instance.erros}",
+                        3)
                 return
             dados_instance.filters_aplier()
 
-            create_xlsx_file(dados_instance.data,
-            f"{info_arquivo.path.replace(info_arquivo.name,'')}{nome_arquivo}")
-        # save_file_dialog.save_file()
-        page.open(dlg)
+            xlsx_file = DataClassXlsx(dados_instance.data)
+            xlsx_file.create_xlsx_file()
+            if configuracoes.all['configuration']['result']['save_new_file']:
+                seletor_arquivo_salvar.save_file(dialog_title="Salvar Arquivo Processado",allowed_extensions=["xlsx"])
+                while True:
+                    if  botao_converter.data['saida']:
+                        xlsx_file.save_file_xlsx(botao_converter.data['saida'])
+                        generic_alert("Processamento Finalizado Com Sucesso","")
+                        botao_converter.data['saida']=''
+                        break
+                page.update()
+            else:
+                xlsx_file.save_file_xlsx(f"{info_arquivo.path.replace(info_arquivo.name,'')}{nome_arquivo}")
+                generic_alert("Processamento Finalizado Com Sucesso","")
+        
+        
+    def selecao_arquivo(e: ft.FilePickerResultEvent):
+        botao_converter.data["entrada"] = list(e.files)
+        botao_converter.disabled=False
+        page.update()
+      
+
+    def salvar_arquivo_resultado(e: ft.FilePickerResultEvent):
+        if e.path:
+            botao_converter.data["saida"]= e.path
+        else:
+            generic_alert("Erro ao Salvar Arquivo","Nenhum arquivo de destino foi definido",3)
+            page.update()
+    
+    def salvar_arquivo_config(e):
+        configuracoes.save_by_input_list(lista_inputs_config, instacias_configs)
+        configuracoes.update_config()
+        generic_alert("Arquivo Salvo com Sucesso","")
+        page.update()
+
+    def abri_link(e):
+        page.launch_url('https://github.com/JonasLimaDev/csv-to-xlsx-conversor')
 
 
-    botao_converter = ft.ElevatedButton("Converter", on_click=converter_arquivo, disabled=True)
+    text_cabecalho = create_header("Conversor de Arquivo CSV para XLSX")
+
+    text_label_converter = ft.Text(
+        "Secelcione um Arquivo para iniciar a Conversão",
+        text_align=ft.TextAlign.CENTER,
+        size=14)
+
+    botao_converter = ft.ElevatedButton("Converter", on_click=converter_arquivo, disabled=True, data={'entrada':'','saida':''})
+    # botão para carregar o arquivo que será convertido
+
+    botao_select_file = ft.ElevatedButton("Selecionar Arquivo...",
+        on_click=lambda _: seletor_arquivo_abrir.pick_files(
+        allow_multiple=True, allowed_extensions=["csv"])
+    )
+
+    # instruções para diálogo de salvar arquivo
+ 
+    seletor_arquivo_abrir = ft.FilePicker(on_result=selecao_arquivo)
+    
+    seletor_arquivo_salvar = ft.FilePicker(on_result=salvar_arquivo_resultado,)
+
 
     grupo_texto_coluna = [
-        criar_container_texto(text_cabecalho),
-        criar_container_texto(ft.Text()),
-        criar_container_texto(text_label_converter),
+        text_cabecalho,
+        add_text_to_container(text_label_converter),
     ]
 
     layout_conversor = ft.Column(
@@ -196,18 +207,15 @@ def main(page: ft.Page):
 
     instacias_configs = create_inputs_config(
         configuracoes.get_individual_config(),BASE_INPUTS
-        )
+    )
     lista_inputs_config = []
     for instancia in instacias_configs:
         lista_inputs_config.append(
-                criar_input_configuracao(instancia.label,instancia.helper,instancia.value_display)
+                create_input_configuration(
+                    instancia.label,
+                    instancia.helper,
+                    instancia.value_display)
                 )
-    def salvar_arquivo_config(e):
-        salvar_dados_config(lista_inputs_config, instacias_configs)
-        page.update() 
-
-    def open_repo(e):
-        page.launch_url('https://github.com/JonasLimaDev/csv-to-xlsx-conversor')
 
     t = ft.Tabs(
         selected_index=0,
@@ -228,14 +236,48 @@ def main(page: ft.Page):
                 
                 content=ft.Container(
                 ft.Column(
-                    [criar_container_input(item) for item in lista_inputs_config ]+[ft.ElevatedButton("Salvar",on_click=salvar_arquivo_config)],
+                    [create_header("Configurações Para Tratamento do Arquivo")]+
+                    [add_input_to_container(item) for item in lista_inputs_config ]+[ft.ElevatedButton("Salvar",on_click=salvar_arquivo_config)],
+                    scroll="auto",
+                    )
+                ),
+            ),
+            ft.Tab(
+                text="Sobre",
+                icon=ft.icons.INFO_OUTLINE_ROUNDED,
+                
+                content=ft.Container(
+                ft.Column(
+                    [create_header("Informações do Programa"),
+                    add_text_to_container(ft.Text("Versão: 1.0.0")),
+                    add_text_to_container(
+                        ft.Text(
+                            "Desenvolvido por: ",
+                            spans=[
+                                create_span_with_url("Jonas Lima","https://github.com/JonasLimaDev/")
+                                ]
+                            ),
+                        ),
+                    add_text_to_container(
+                        ft.Text(
+                            "Código Fonte: ",
+                            spans=[
+                                create_span_with_url(
+                                    "Repositório",
+                                    "https://github.com/JonasLimaDev/csv-to-xlsx-conversor")
+                                ]
+                        ),
+                    )],
                     scroll="auto",
                     )
                 ),
             ),
         ],
-        expand=1,
-    )
+        expand=1,)
+
+
+    page.add(seletor_arquivo_abrir)
+    page.add(seletor_arquivo_salvar)
     page.add(t)
 
 

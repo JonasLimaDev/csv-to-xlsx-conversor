@@ -14,7 +14,7 @@ class DataClassCSV():
         >>> remove_columns([[1,2,3,4,5,6,7]],[0,4,6])
         [[2,3,4,6]]
         """
-        print("exclude_columns_number")
+        # print("exclude_columns_number")
         data_filtered = []
         columns_numbers = self.remove_blank_item(columns_numbers)
         columns_numbers = [int(number)-1 for number in columns_numbers]
@@ -29,7 +29,7 @@ class DataClassCSV():
     
 
     def exclude_rows_excepty_first(self, terms: list):
-        print("exclude_rows_excepty_first")
+        # print("exclude_rows_excepty_first")
         data_filtered = []
         exclude_row_contains = []
         terms = self.remove_blank_item(terms)
@@ -53,7 +53,7 @@ class DataClassCSV():
 
 
     def exclude_rows_contains_terms(self, terms: list):
-        print("exclude_rows_contains_terms")
+        # print("exclude_rows_contains_terms")
         data_filtered = []
         terms = self.remove_blank_item(terms)
         counter = 0
@@ -65,7 +65,7 @@ class DataClassCSV():
 
 
     def exclude_rows_contains_partial(self, partials: list):
-        print("exclude_rows_contains_partial")
+        # print("exclude_rows_contains_partial")
         partials = self.remove_blank_item(partials)
         removed = False
         counter = 0
@@ -84,7 +84,7 @@ class DataClassCSV():
 
 
     def exclude_rows_empety(self, option: bool):
-        print("exclude_rows_empety")
+        
         for data_item in self.data:
             if all(elem == "" for elem in data_item):
                 self.data.remove(data_item)

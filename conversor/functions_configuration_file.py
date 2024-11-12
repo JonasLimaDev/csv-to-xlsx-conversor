@@ -36,13 +36,15 @@ def create_inputs_config(configs, base_inputs):
     inputs_data = []
     for config in configs:
         for key_config in config:
-            inputs_data.append(
-                ConfigurationInput(
-                    label=base_inputs[key_config][0],
-                    key_to_write=key_config,
-                    value=config[key_config],
-                    helper=base_inputs[key_config][1].replace("       ",""),
-                    type_config = type(base_inputs[key_config][2])
+            if key_config in base_inputs:
+                inputs_data.append(
+                    ConfigurationInput(
+                        label=base_inputs[key_config][0],
+                        key_to_write=key_config,
+                        value=config[key_config],
+                        helper=base_inputs[key_config][1].replace("       ",""),
+                        type_config = type(base_inputs[key_config][2])
+                    )
                 )
-            )
     return inputs_data
+

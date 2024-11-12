@@ -83,7 +83,16 @@ class FileDataConfig():
             for gruop in self.all[config_type]:
                 individual_configuration.append(self.all[config_type][gruop])
         return individual_configuration
-
+    
+    def save_by_input_list(self, flet_input_list, list_class_config_input):
+        for input_item in flet_input_list:
+            for config_class in list_class_config_input:
+                if input_item.label == config_class.label:
+                    config_class.value = input_item.value
+                self.add_configuration(
+                    config_class.get_dict_to_save()
+                )
+        self.save_file()
 
 
 class ConfigurationInput():
@@ -114,12 +123,13 @@ class ConfigurationInput():
             text_display = text_display[:-2]
         return text_display
     
+
     def get_dict_to_save(self):
         """
         Prepara os dados para serem salvos no arquivo de configuração
         """
         if self.type_config == list:
-            return {self.key_to_write: str(self.value).split(";")}
+            return {self.key_to_write: [item.strip() for item in str(self.value).split(";")]}
         elif self.type_config == bool:
             if str(self.value).lower() == "true" or str(self.value).lower() == "sim": 
                 return {self.key_to_write: True}
