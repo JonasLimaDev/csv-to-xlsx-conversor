@@ -5,6 +5,7 @@
 config.toml
 dist/
 build/
+site/
 generated-*
 ### Python ###
 # Byte-compiled / optimized / DLL files

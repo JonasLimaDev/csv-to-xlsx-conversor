@@ -267,6 +267,17 @@ def main(page: ft.Page):
                                     "https://github.com/JonasLimaDev/csv-to-xlsx-conversor")
                                 ]
                         ),
+                    ),
+                                        add_text_to_container(
+                        ft.Text(
+                            "Veja a ",
+                            spans=[
+                                create_span_with_url(
+                                    "Documentação",
+                                    "https://jonaslimadev.github.io/csv-to-xlsx-conversor/"),
+                                    ft.TextSpan(" para mais informações e atualizações")
+                                ]
+                        ),
                     )],
                     scroll="auto",
                     )
