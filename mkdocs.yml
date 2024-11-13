@@ -14,9 +14,10 @@ theme:
         icon: material/weather-sunny
         name: Modo claro
 
-        
+
 markdown_extensions:
   - pymdownx.mark
   - pymdownx.tilde
   - pymdownx.highlight
+  - attr_list
   

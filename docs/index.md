@@ -7,7 +7,6 @@ Transforma arquivos .csv em .xlsx, mas não se limita a isso, ele dá a possibil
 de realizar alguns tratmentos e limpezas já no projeto de conversão. o que pode facilitar 
 e agiliar o trabalho.
 
-## Tecnologias do Projeto
-- python
-- flet
-
+## Principais Tecnologias do Projeto
+- Linguagem de Programação [Python](https://python.org){:target="_blank"}
+- Biblioteca [Flet](https://flet.dev/){:target="_blank"}

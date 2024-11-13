@@ -10,7 +10,6 @@ python = ">=3.11,<3.14"
 xlsxwriter = "^3.2.0"
 flet = "^0.24.1"
 toml = "^0.10.2"
-mkdocs-material = "^9.5.44"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -18,6 +17,7 @@ pyinstaller = "^6.11.0"
 pillow = "^11.0.0"
 mkdocs = "^1.6.1"
 pymdown-extensions = "^10.12"
+mkdocs-material = "^9.5.44"
 
 [build-system]
 requires = ["poetry-core"]

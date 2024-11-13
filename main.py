@@ -1,6 +1,6 @@
 import flet as ft
 
-from app.functions_structure import (
+from window.functions_structure import (
     add_text_to_container,
     add_input_to_container,
     create_input_configuration,
