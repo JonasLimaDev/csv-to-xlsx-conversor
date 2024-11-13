@@ -6,6 +6,9 @@ def define_configs_structure():
     "Define configurações inicias padrão"
     config_initial = {
         'configuration':{
+            'result':{
+            'save_new_file': False
+            },
             'file':{
             'encoding_file': 'utf-8', 'delimiter_file': ','
             },

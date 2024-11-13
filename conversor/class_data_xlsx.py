@@ -4,11 +4,12 @@ from tempfile import NamedTemporaryFile, gettempdir
 from shutil import copyfile
 from os import remove
 
+
 class DataClassXlsx():
     def __init__(self, data_to_save):
         self.data_to_save = data_to_save
-        # self.temp_dir = gettempdir()
         self.temp_file = f"{gettempdir()}/temp_file_conversor.xlsx"
+
 
     def decompose_number(self, number):
         """
@@ -68,6 +69,7 @@ class DataClassXlsx():
             letters_dict[index] = self.number_to_letter(index)
         return letters_dict
 
+
     def create_xlsx_file(self,):
         workbook = xlsxwriter.Workbook(self.temp_file,)
         worksheet = workbook.add_worksheet()
@@ -80,12 +82,10 @@ class DataClassXlsx():
         worksheet.autofit()
         workbook.close()
     
+
     def save_file_xlsx(self,file_to_save):
-        print(self.temp_file)
-        print(file_to_save)
         copyfile(self.temp_file, f"{file_to_save}.xlsx")
     
+
     def remove_tem_file(self):
         remove(self.temp_file)
-        
-

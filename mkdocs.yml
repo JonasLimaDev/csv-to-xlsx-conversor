@@ -1,0 +1,22 @@
+site_name: Doumentação Conversor
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      toggle:
+        icon: material/weather-night
+        name: Modo noturno
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Modo claro
+
+        
+markdown_extensions:
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.highlight
+  
