@@ -689,39 +689,82 @@
 <h2 id="configuracoes-para-limpeza-de-dados">Configurações para Limpeza de Dados</h2>
 <h3 id="excluir-linhas-por-conteudo">Excluir Linhas Por Conteúdo</h3>
 <p>Remove linhas conforme termos buscados, deve ser exatamente como está na célula da linha que se deseja remover. Irá verificar o valor da célula como um todo, não importando a posição da célula na linha.</p>
-<h3 id="excluir-linhas-por-conteudo-parcial">Excluir Linhas Por Conteúdo Parcial</h3>
-<p>Remove  linhas conforme termos buscados, pode ser uma palavra completa ou fragmento. Irá verificar o valor contido em cada célula da planilha. Deve ser usado com cuidado pois pode acabar excluindo valores que não deveria</p>
 <p><strong>Exemplo:</strong>
-Usando o termo Mar</p>
+Usando o termo Maçã</p>
 <p><em>Valores Originais:</em></p>
 <table>
 <thead>
 <tr>
-<th>Nº</th>
-<th>Nome</th>
-<th>Idade</th>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>01</td>
-<td>João</td>
-<td>37</td>
+<td>Maçã</td>
+<td>R$ 3,99</td>
+<td>Frutas</td>
+<td>Maçã Fuji, grande, unidade</td>
 </tr>
 <tr>
 <td>02</td>
-<td>Maria</td>
-<td>28</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
 </tr>
 <tr>
 <td>03</td>
-<td>Marcos</td>
-<td>33</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
 </tr>
 <tr>
-<td>...</td>
-<td>...</td>
-<td>...</td>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Maçã</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Maçã Gala, pequena, pacote com 3 unidades</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Frutas</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
 </tr>
 </tbody>
 </table>
@@ -729,30 +772,686 @@ Usando o termo Mar</p>
 <table>
 <thead>
 <tr>
-<th>Nº</th>
-<th>Nome</th>
-<th>Idade</th>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Frutas</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
+</tr>
+</tbody>
+</table>
+<h3 id="excluir-linhas-por-conteudo-parcial">Excluir Linhas Por Conteúdo Parcial</h3>
+<p>Remove  linhas conforme termos buscados, pode ser uma palavra completa ou fragmento. Irá verificar o valor contido em cada célula da planilha. Deve ser usado com cuidado pois pode acabar excluindo valores que não deveria</p>
+<p><strong>Exemplo:</strong>
+Usando o termo Frut</p>
+<p><em>Valores Originais:</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>01</td>
-<td>João</td>
-<td>37</td>
+<td>Maçã</td>
+<td>R$ 3,99</td>
+<td>Frutas</td>
+<td>Maçã Fuji, grande, unidade</td>
 </tr>
 <tr>
-<td>...</td>
-<td>...</td>
-<td>...</td>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Maçã</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Maçã Gala, pequena, pacote com 3 unidades</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Frutas</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
+</tr>
+</tbody>
+</table>
+<p><em>Resultado:</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
 </tr>
 </tbody>
 </table>
 <h3 id="excluir-linhas-exceto-primeiro-caso">Excluir Linhas, Exceto Primeiro Caso</h3>
 <p>Remove linhas conforme termos buscados, mantendo a primeira linha encontrada. O valor buscado deve ser exatamente como está na célula da linha que se deseja remover. Irá verificar o valor da célula como um todo, não importando a posição da célula na linha.</p>
+<p><strong>Exemplo:</strong>
+Usando o termo: 'Nome do Produto'</p>
+<p><em>Valores Originais:</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Maçã</td>
+<td>R$ 3,99</td>
+<td>Frutas</td>
+<td>Maçã Fuji, grande, unidade</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>Nome do Produto</td>
+<td>Preço</td>
+<td>Tipo</td>
+<td>Descrição</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Maçã</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Maçã Gala, pequena, pacote com 3 unidades</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Frutas</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
+</tr>
+</tbody>
+</table>
+<p><em>Resultado:</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Maçã</td>
+<td>R$ 3,99</td>
+<td>Frutas</td>
+<td>Maçã Fuji, grande, unidade</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Maçã</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Maçã Gala, pequena, pacote com 3 unidades</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Frutas</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
+</tr>
+</tbody>
+</table>
 <h3 id="excluir-linhas-vazias">Excluir Linhas Vazias</h3>
 <p>Remove linhas vazias que estejam no meio dos dados da Planilha, todas as células da linha devem estar vazias.</p>
+<p><strong>Exemplo:</strong></p>
+<p><em>Valores Originais:</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Maçã</td>
+<td>R$ 3,99</td>
+<td>Frutas</td>
+<td>Maçã Fuji, grande, unidade</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>08</td>
+<td>Maçã</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Maçã Gala, pequena, pacote com 3 unidades</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Frutas</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
+</tr>
+</tbody>
+</table>
+<p><em>Resultado</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Maçã</td>
+<td>R$ 3,99</td>
+<td>Frutas</td>
+<td>Maçã Fuji, grande, unidade</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Maçã</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Maçã Gala, pequena, pacote com 3 unidades</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Frutas</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
+</tr>
+</tbody>
+</table>
 <h3 id="excluir-colunas">Excluir Colunas</h3>
 <p>Remove colunas conforme indicação do número da posição da coluna, podem ser fornecidos vários valores.</p>
+<p><strong>Exemplo:</strong>
+Usando o número 4 para remover a quarta coluna</p>
+<p><em>Valores Originais:</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Maçã</td>
+<td>R$ 3,99</td>
+<td>Frutas</td>
+<td>Maçã Fuji, grande, unidade</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Laticínios</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Grãos</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Limpeza</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Laticínios</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Padaria</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Maçã</td>
+<td>R$ 2,99</td>
+<td>Frutas</td>
+<td>Maçã Gala, pequena, pacote com 3 unidades</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Frutas</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
+</tr>
+</tbody>
+</table>
+<p><em>Resultado</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome do Produto</th>
+<th>Preço</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Maçã</td>
+<td>R$ 3,99</td>
+<td>Maçã Fuji, grande, unidade</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Leite Integral</td>
+<td>R$ 4,50</td>
+<td>Leite integral, 1 litro</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Arroz Branco</td>
+<td>R$ 5,20</td>
+<td>Arroz branco, 5kg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Sabão em Pó</td>
+<td>R$ 12,90</td>
+<td>Sabão em pó, 1kg</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Banana Nanica</td>
+<td>R$ 2,99</td>
+<td>Banana nanica, kg</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Iogurte Natural</td>
+<td>R$ 3,20</td>
+<td>Iogurte natural, 150g</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Pão Francês</td>
+<td>R$ 4,00</td>
+<td>Pão francês, unidade</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Maçã</td>
+<td>R$ 2,99</td>
+<td>Maçã Gala, pequena, pacote com 3 unidades</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Banana</td>
+<td>R$ 3,50</td>
+<td>Banana prata, kg, firme e ideal para assar</td>
+</tr>
+</tbody>
+</table>
 <h2 id="configuracoes-de-saida">Configurações de Saída</h2>
 <h3 id="salvar-novo-arquivo">Salvar Novo Arquivo</h3>
 <p>Decidir onde Salvar o Arquivo Processado. Por padrão será salvo com o nome do arquivo de origem.
