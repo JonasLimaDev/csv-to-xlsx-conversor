@@ -682,13 +682,21 @@
 
 <h1 id="informacoes-de-uso">Informações de Uso</h1>
 <h2 id="configuracoes-para-leitura-do-arquivo-de-origem">Configurações para leitura do Arquivo de origem</h2>
+<p>Estas configurações são relativas ao arquivo de origem (que se deseja converter),
+e serão aplicadas para a leitura correta das informações contidas nele.</p>
 <h3 id="codificacao">Codificação</h3>
-<p>Tipo de codificação Usada no Arquivo de origem o qual deseja converter.</p>
+<p>Tipo de codificação usada no Arquivo de origem.
+É o sistema utilizado para representar caracteres, o padrão é utf-8.
+Mas pode ser WINDOWS-1252 ou latin-1 por exemplo. </p>
+<p><em>Atenção:</em> Somente uma codificação deve ser usada por vez</p>
 <h3 id="delimitador">Delimitador</h3>
-<p>Delimitador das colunas do arquivo. O padrão ',', mas pode variar para ';' e '|' por exemplo.</p>
+<p>Delimitador das colunas do arquivo. O padrão ",". Existem outros delimitadores por exemplo ";" e "|".</p>
 <h2 id="configuracoes-para-limpeza-de-dados">Configurações para Limpeza de Dados</h2>
+<p>Estas configurações são relativas aos dados do arquivo de origem (que se deseja converter),
+e serão aplicadas nos dados salvos no arquivo de saída. Os dados do arquivo de origem permanecerão inalterados</p>
 <h3 id="excluir-linhas-por-conteudo">Excluir Linhas Por Conteúdo</h3>
-<p>Remove linhas conforme termos buscados, deve ser exatamente como está na célula da linha que se deseja remover. Irá verificar o valor da célula como um todo, não importando a posição da célula na linha.</p>
+<p>Remove linhas conforme termos buscados, deve ser exatamente como está na célula da linha que se deseja remover.
+Irá verificar o valor da célula como um todo, não importando a posição da célula na linha.</p>
 <p><strong>Exemplo:</strong>
 Usando o termo Maçã</p>
 <p><em>Valores Originais:</em></p>
@@ -832,9 +840,12 @@ Usando o termo Maçã</p>
 </tbody>
 </table>
 <h3 id="excluir-linhas-por-conteudo-parcial">Excluir Linhas Por Conteúdo Parcial</h3>
-<p>Remove  linhas conforme termos buscados, pode ser uma palavra completa ou fragmento. Irá verificar o valor contido em cada célula da planilha. Deve ser usado com cuidado pois pode acabar excluindo valores que não deveria</p>
-<p><strong>Exemplo:</strong>
-Usando o termo Frut</p>
+<p>Remove  linhas conforme termos buscados, pode ser uma palavra completa ou fragmento.
+Irá verificar o valor contido em cada célula da planilha. </p>
+<p><em>Atenção:</em> Deve ser usado com cuidado, pois,
+pode acabar excluindo valores de forma indesejada.</p>
+<p><strong>Exemplo:</strong></p>
+<p>Usando o termo Frut</p>
 <p><em>Valores Originais:</em></p>
 <table>
 <thead>
@@ -962,9 +973,11 @@ Usando o termo Frut</p>
 </tbody>
 </table>
 <h3 id="excluir-linhas-exceto-primeiro-caso">Excluir Linhas, Exceto Primeiro Caso</h3>
-<p>Remove linhas conforme termos buscados, mantendo a primeira linha encontrada. O valor buscado deve ser exatamente como está na célula da linha que se deseja remover. Irá verificar o valor da célula como um todo, não importando a posição da célula na linha.</p>
+<p>Remove linhas conforme termos buscados, mantendo a primeira linha encontrada.
+O valor buscado deve ser exatamente como está na célula da linha que se deseja remover.
+Irá verificar o valor da célula como um todo, não importando a posição da célula na linha.</p>
 <p><strong>Exemplo:</strong>
-Usando o termo: 'Nome do Produto'</p>
+Usando o termo: "Nome do Produto"</p>
 <p><em>Valores Originais:</em></p>
 <table>
 <thead>
@@ -1128,6 +1141,13 @@ Usando o termo: 'Nome do Produto'</p>
 </table>
 <h3 id="excluir-linhas-vazias">Excluir Linhas Vazias</h3>
 <p>Remove linhas vazias que estejam no meio dos dados da Planilha, todas as células da linha devem estar vazias.</p>
+<p><strong>Valores Aceitos</strong></p>
+<ul>
+<li>True</li>
+<li>False</li>
+<li>Sim</li>
+<li>Não</li>
+</ul>
 <p><strong>Exemplo:</strong></p>
 <p><em>Valores Originais:</em></p>
 <table>
@@ -1305,7 +1325,8 @@ Usando o termo: 'Nome do Produto'</p>
 </tbody>
 </table>
 <h3 id="excluir-colunas">Excluir Colunas</h3>
-<p>Remove colunas conforme indicação do número da posição da coluna, podem ser fornecidos vários valores.</p>
+<p>Remove colunas conforme indicação do número da posição da coluna, podem ser fornecidos vários valores.
+Deve ser fornecido o número de cada coluna que se deseja remover, separados por ponto e vírgula (ex: 3; 4)</p>
 <p><strong>Exemplo:</strong>
 Usando o número 4 para remover a quarta coluna</p>
 <p><em>Valores Originais:</em></p>
@@ -1455,8 +1476,8 @@ Usando o número 4 para remover a quarta coluna</p>
 <h2 id="configuracoes-de-saida">Configurações de Saída</h2>
 <h3 id="salvar-novo-arquivo">Salvar Novo Arquivo</h3>
 <p>Decidir onde Salvar o Arquivo Processado. Por padrão será salvo com o nome do arquivo de origem.
-Ao habilitar essa opção será fornecida uma opção para nomear o arquivo de saída.
-Arquivos com mesmo nome serão sobrescritos a cada novo processamento.</p>
+Ao habilitar essa opção será fornecida uma interface para nomear o arquivo de saída.</p>
+<p><em>Atenção:</em> Arquivos com mesmo nome serão sobrescritos a cada novo processamento.</p>
 
 
 
